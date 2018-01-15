@@ -1,0 +1,27 @@
+title Uuden noten lisäys
+
+Kayttaja->Selain: 
+note left of Selain 
+Kayttaja syöttää tekstikenttään haluamansa noten 
+tekstin ja painaa "talleta" näppäintä
+end note
+Selain->Palvelin: POST fullstack-exampleapp.herokuapp.com/new_note
+note left of Palvelin 
+Lähetetään POST pyyntö, noten teksti on 'Form Data' -kentässä
+end note
+Palvelin->Selain: status 302, redirect takaisin /notes
+Selain->Palvelin: GET https://fullstack-exampleapp.herokuapp.com/notes
+Palvelin->Selain: status 200, sivun HTML-koodi
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/main.css
+Palvelin->Selain: status 200, sivun CSS-määrittely
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/main.js
+Palvelin->Selain: status 200, sivun JS-tiedosto
+Selain->Palvelin: GET fullstack-exampleapp.herokuapp.com/data.json
+Palvelin->Selain: status 200, sivun listaan JS:n avulla tungettava data JSON muodossa
+note left of Selain
+Selain näyttää palvelimen palauttaman HTML:n,
+joka on tyylitelty palvelimen palauttaman CSS:n avulla,
+siinä on JS-tiedoston avulla parsettu tähänasti lisätyt notet JSON-
+tiedostosta ja siinä on formi, jonka avulla voi lähettää uusia noteja
+(tämän forminkin toiminnallisuus saadaan JS-tiedostosta).
+end note
