@@ -1,0 +1,21 @@
+title Uuden noten luonti SPA-versiossa
+
+Kayttaja->Selain: 
+note left of Selain 
+Käyttäjä syöttää haluamansa tekstin tekstikenttään
+ja painaa 'talleta' -näppäintä
+end note
+Selain->Palvelin: POST fullstack-exampleapp.herokuapp.com/new_note_spa
+note left of Palvelin
+Käyttäjän kirjoittama teksti on spa.js tiedostossa muutettu
+lähetyksen yhteydessä JSON-muotoiseksi, ja tämä on asetettu
+"Request Payload" -kenttään kyselyssä. 
+end note
+note left of Selain
+JS-tiedostossa on määritelty, että notet listataan uudelleen
+samalle sivulle sitä uudelleenlataamatta heti, kun käyttäjä on
+painanut 'talleta' -nappia. Uusi note on mahdollista näyttää, sillä
+se luodaan selaimella ensin, eikä tarvitse edes lähettää notea itse serverille
+ennenkuin muutos voidaan jo esittää. 
+end note
+Palvelin->Selain: status 201, ilmoitus, että uusi note on luotu
