@@ -12,22 +12,20 @@ class App extends React.Component {
     }
   }
 
-  clickGood = () => {
-    this.setState({
-      good: this.state.good + 1
-    })
-  }
+  clickButton = (value, id) => {
+    return () => {
+      if (id === "good") {
+        this.setState({good: value})
+      }
 
-  clickNeutral = () => {
-    this.setState({
-      neutral: this.state.neutral + 1
-    })
-  }
+      if (id === "neutral") {
+        this.setState({neutral: value})
+      }
 
-  clickBad = () => {
-    this.setState({
-      bad: this.state.bad + 1
-    })
+      if (id === "bad") {
+        this.setState({bad: value})
+      }
+    }
   }
 
   calculateAverage = (good, neutral, bad) => {
@@ -53,23 +51,35 @@ class App extends React.Component {
       return (
         this.checkIfAllZero(good,neutral,bad) ?
         <div>yhtään palautetta ei ole annettu</div> :
-        <div>
-          <Statistic text="hyvä" value={good}/>
-          <Statistic text="neutraali" value={neutral}/>
-          <Statistic text="huono" value={bad}/>
-          <Statistic text="keskiarvo" value=
-          {this.calculateAverage(good,neutral,bad)}
-          />
-          <Statistic text="positiivisia" value=
-          {this.calcFracOfPositive(good,neutral,bad)}
-          />
-        </div>
+        <table>
+          <tbody>
+          <tr>
+            <Statistic text="hyvä" value={good}/>
+          </tr>
+          <tr>
+            <Statistic text="neutraali" value={neutral}/>
+          </tr>
+          <tr>
+            <Statistic text="huono" value={bad}/>
+          </tr>
+          <tr>
+            <Statistic text="keskiarvo" value=
+            {this.calculateAverage(good,neutral,bad)}
+            />
+          </tr>
+          <tr>
+            <Statistic text="positiivisia" value=
+            {this.calcFracOfPositive(good,neutral,bad)}
+            />
+          </tr>
+          </tbody>
+      </table>
       )
     }
 
     const Statistic = ({text, value}) => {
       return(
-        <p>{text}: {value}</p>
+        <td>{text}: {value}</td>
       )
     }
 
@@ -82,9 +92,12 @@ class App extends React.Component {
     return (
         <div>
           <h1>anna palautetta</h1>
-          <Button text="hyvä" handleClick={this.clickGood} />
-          <Button text="neutraali" handleClick={this.clickNeutral} />
-          <Button text="huono" handleClick={this.clickBad} />
+          <Button text="hyvä" handleClick
+          ={this.clickButton(good + 1, "good")} />
+          <Button text="neutraali" handleClick
+          ={this.clickButton(neutral + 1, "neutral")} />
+          <Button text="huono" handleClick
+          ={this.clickButton(bad + 1, "bad")} />
 
           <h1>statistiikka</h1>
           <Statistics />
