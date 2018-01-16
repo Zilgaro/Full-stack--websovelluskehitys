@@ -30,8 +30,40 @@ class App extends React.Component {
     })
   }
 
-  render() {
+  /*toivottavasti voitan 'kaikkien aikojen vaikeimmin tehdyn ekan viikon
+  tehtävän' palkinnon :D
+  */
+  calculateAverage = (good, neutral, bad) => {
+    return (this.checkIfAllZero(good, neutral, bad)
+    ? 0 : (good + bad * -1) / (good+neutral+bad))
+  }
 
+  calcFracOfPositive = (good, neutral, bad) => {
+    return (this.checkIfAllZero(good, neutral, bad)
+    ? 0 : good / (good+neutral+bad)) * 100
+  }
+
+  checkIfAllZero = (good, neutral, bad) => {
+    if (good === 0 && bad === 0 && neutral === 0) {
+      return true
+    }
+    return false;
+  }
+
+
+  render() {
+    const {good, neutral, bad} = this.state
+    const Statistics = () => {
+      return (
+        <div>
+          <p>hyvä: {good}</p>
+          <p>neutraali: {neutral}</p>
+          <p>huono: {bad}</p>
+          <p>keskiarvo: {this.calculateAverage(good,neutral,bad)}</p>
+          <p>positiivisia: {this.calcFracOfPositive(good,neutral,bad)}%</p>
+        </div>
+      )
+    }
 
     return (
         <div>
@@ -46,9 +78,7 @@ class App extends React.Component {
           </button>
 
           <h1>statistiikka</h1>
-          <p>hyvä: {this.state.good}</p>
-          <p>neutraali: {this.state.neutral}</p>
-          <p>huono: {this.state.bad}</p>
+          <Statistics />
         </div>
     )
   }
