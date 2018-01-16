@@ -28,12 +28,40 @@ class App extends React.Component {
     }
   }
 
+  findMax = () => {
+    let max = 0
+    let maxIndex = 0
+    for (let i = 0; i < this.state.values.length; i++) {
+      if (this.state.values[i] > max) {
+        max = this.state.values[i]
+        maxIndex = i
+      }
+    }
+    const retObj = {
+      max: max,
+      maxIndex: maxIndex
+    }
+
+    return retObj
+  }
+
   render() {
     const Votetally = () => {
-
-        return ( this.state.values[this.state.selected] === 0 ? <p></p>: 
+        return ( this.state.values[this.state.selected] === 0 ? <p></p>:
           <p>has {this.state.values[this.state.selected]} votes</p>
         )
+    }
+
+    const MaxVotes = () => {
+      const maxVotes = this.findMax();
+      console.log(maxVotes.max)
+      return ( maxVotes.max === 0 ? <p></p> :
+              <div>
+                <h1>anecdote with most votes:</h1>
+                <p>{this.props.anecdotes[maxVotes.maxIndex]}</p>
+                <p>has {maxVotes.max} votes</p>
+              </div>
+            )
     }
 
     return (
@@ -42,6 +70,7 @@ class App extends React.Component {
         <Votetally/>
         <button onClick={this.vote(this.state.selected)}>vote</button>
         <button onClick={this.nextAnecdote(anecdotes.length)}>next anecdote</button>
+        <MaxVotes/>
       </div>
     )
   }
