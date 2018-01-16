@@ -30,17 +30,12 @@ class App extends React.Component {
     })
   }
 
-  /*toivottavasti voitan 'kaikkien aikojen vaikeimmin tehdyn ekan viikon
-  tehtävän' palkinnon :D
-  */
   calculateAverage = (good, neutral, bad) => {
-    return (this.checkIfAllZero(good, neutral, bad)
-    ? 0 : (good + bad * -1) / (good+neutral+bad))
+    return ((good + bad * -1) / (good+neutral+bad))
   }
 
   calcFracOfPositive = (good, neutral, bad) => {
-    return (this.checkIfAllZero(good, neutral, bad)
-    ? 0 : good / (good+neutral+bad)) * 100
+    return ((good / (good+neutral+bad)) * 100) + "%"
   }
 
   checkIfAllZero = (good, neutral, bad) => {
@@ -54,28 +49,42 @@ class App extends React.Component {
   render() {
     const {good, neutral, bad} = this.state
     const Statistics = () => {
+
       return (
+        this.checkIfAllZero(good,neutral,bad) ?
+        <div>yhtään palautetta ei ole annettu</div> :
         <div>
-          <p>hyvä: {good}</p>
-          <p>neutraali: {neutral}</p>
-          <p>huono: {bad}</p>
-          <p>keskiarvo: {this.calculateAverage(good,neutral,bad)}</p>
-          <p>positiivisia: {this.calcFracOfPositive(good,neutral,bad)}%</p>
+          <Statistic text="hyvä" value={good}/>
+          <Statistic text="neutraali" value={neutral}/>
+          <Statistic text="huono" value={bad}/>
+          <Statistic text="keskiarvo" value=
+          {this.calculateAverage(good,neutral,bad)}
+          />
+          <Statistic text="positiivisia" value=
+          {this.calcFracOfPositive(good,neutral,bad)}
+          />
         </div>
+      )
+    }
+
+    const Statistic = ({text, value}) => {
+      return(
+        <p>{text}: {value}</p>
+      )
+    }
+
+    const Button = ({text, handleClick}) => {
+      return(
+        <button onClick={handleClick}>{text}</button>
       )
     }
 
     return (
         <div>
           <h1>anna palautetta</h1>
-          <button onClick={this.clickGood}>hyvä
-          </button>
-
-          <button onClick={this.clickNeutral}>neutraali
-          </button>
-
-          <button onClick={this.clickBad}>huono
-          </button>
+          <Button text="hyvä" handleClick={this.clickGood} />
+          <Button text="neutraali" handleClick={this.clickNeutral} />
+          <Button text="huono" handleClick={this.clickBad} />
 
           <h1>statistiikka</h1>
           <Statistics />
