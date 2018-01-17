@@ -19,6 +19,11 @@ const App = () => {
         nimi: 'Komponenttien tila',
         tehtavia: 14,
         id: 3
+      },
+      {
+        nimi: 'Redux',
+        tehtavia: 7,
+        id: 4
       }
     ]
   }
@@ -35,6 +40,7 @@ const Kurssi = (props) => {
     <div>
       <Otsikko kurssi={props.kurssi.nimi}/>
       <Sisalto osat={props.kurssi.osat} />
+      <Yhteensa osat={props.kurssi.osat}/>
     </div>
   )
 }
@@ -59,14 +65,18 @@ const Osa = (props) => {
     <p>{props.osa.nimi} {props.osa.tehtavia}</p>
   )
 }
-/*
+
 const Yhteensa = (props) => {
+  //funktionaalisuus on helppoa ja hauskaa
+  const yhteensa = props.osat.reduce((prevVal, osa) => {
+    return prevVal + osa.tehtavia
+  }, 0)
+
   return (
-    <p>yhteensä {props.osat[0].tehtavia + props.osat[1].tehtavia +
-                                          props.osat[2].tehtavia} tehtävää</p>
+    <p>yhteensä {yhteensa} tehtävää</p>
   )
 }
-*/
+
 
 ReactDOM.render(
   <App />,
