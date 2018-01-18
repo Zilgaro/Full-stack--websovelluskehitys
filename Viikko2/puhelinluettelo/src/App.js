@@ -12,16 +12,26 @@ class App extends React.Component {
     }
   }
 
+  checkIfNameTaken = (arr, name) => {
+    return arr.some((arrVal) => {
+      return arrVal.name === name
+    })
+  }
+
   addName = (event) => {
     event.preventDefault()
     const personObj = {
       name: this.state.newName
     }
-    const persons = this.state.persons.concat(personObj)
-    this.setState({
-      persons,
-      newName: ''
-    })
+    if (!this.checkIfNameTaken(this.state.persons, this.state.newName)) {
+      const persons = this.state.persons.concat(personObj)
+      this.setState({
+        persons,
+        newName: ''
+      })
+    } else {
+      alert("Name already taken!")
+    }
   }
 
   handleNameChange = (event) => {
