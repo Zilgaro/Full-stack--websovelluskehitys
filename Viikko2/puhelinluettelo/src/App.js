@@ -45,9 +45,25 @@ class App extends React.Component {
         newNumber: ''
       })
     } else {
-      alert("Name already taken!")
+      if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const person = this.state.persons.find(p => p.name === this.state.newName)
+        person.number = this.state.newNumber
+        personService.update(person.id, person)
+          .then(person => {
+            const persons = this.state.persons.filter(p => p.id !== person.id)
+            this.setState({
+              notes: persons.concat(person)
+            })
+          })
+          .catch(error => {
+            alert(`henkilö '${person.name}' on jo valitettavasti poistettu palvelimelta`)
+            this.setState({
+              persons: this.state.persons.filter(p => p.id !== person.id)})
+            })
+          }
+      }
     }
-  }
+
 
   handleNameChange = (event) => {
     this.setState({newName: event.target.value})
