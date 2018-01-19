@@ -66,11 +66,25 @@ class App extends React.Component {
     )
   }
 
+  deletePerson = (name) => {
+    return () => {
+      if (window.confirm(`poistetaanko ${name}`)) {
+        const person = this.state.persons.find(p => p.name === name)
+        const index = this.state.persons.indexOf(person)
+        const array = this.state.persons
+        //tää oli vaikenta mulle jostai syystä
+        personService.remove(person.id)
+        array.splice(index, 1)
+        this.setState({persons: array})
+      }
+    }
+  }
+
 
   render() {
     const persons = () => this.filterPersons().map(p =>
                           <Person key={p.name} name={p.name}
-                          number={p.number} />)
+                          number={p.number} onClick={this.deletePerson.bind(this)}/>)
 
     return (
       <div>
