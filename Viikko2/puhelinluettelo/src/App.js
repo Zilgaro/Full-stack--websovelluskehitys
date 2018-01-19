@@ -36,6 +36,10 @@ class App extends React.Component {
       number: this.state.newNumber
     }
     if (!this.checkIfNameTaken(this.state.persons, this.state.newName)) {
+      axios.post('http://localhost:3001/persons', personObj)
+        .then(response => {
+          console.log(response)
+        })
       const persons = this.state.persons.concat(personObj)
       this.setState({
         persons,
