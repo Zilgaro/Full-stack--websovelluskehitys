@@ -1,6 +1,7 @@
 import React from 'react';
 import Person from './components/Person'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      filter: ''
+      filter: '',
+      notification: null
     }
   }
 
@@ -42,7 +44,8 @@ class App extends React.Component {
       this.setState({
         persons,
         newName: '',
-        newNumber: ''
+        newNumber: '',
+        notification: `Henkilö ${this.state.newName} lisätty`
       })
     } else {
       if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
@@ -52,14 +55,22 @@ class App extends React.Component {
           .then(person => {
             const persons = this.state.persons.filter(p => p.id !== person.id)
             this.setState({
+              notification: `${person.name} numero vaihdettu`,
               notes: persons.concat(person)
             })
+            setTimeout(() => {
+              this.setState({notification: null})
+            }, 5000)
           })
           .catch(error => {
-            alert(`henkilö '${person.name}' on jo valitettavasti poistettu palvelimelta`)
             this.setState({
+              notification: `henkilö '${person.name}' on jo
+              poistettu palvelimelta, tai hänen tietojaan päivitetään`,
               persons: this.state.persons.filter(p => p.id !== person.id)})
             })
+            setTimeout(() => {
+              this.setState({notification: null})
+            }, 5000)
           }
       }
     }
@@ -91,7 +102,9 @@ class App extends React.Component {
         //tää oli vaikenta mulle jostai syystä
         personService.remove(person.id)
         array.splice(index, 1)
-        this.setState({persons: array})
+        this.setState({
+          notification: `${name} poistettu`,
+          persons: array})
       }
     }
   }
@@ -105,6 +118,9 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+
+        <Notification message = {this.state.notification}/>
+
         <div> rajaa näytettäviä: <input value={this.state.filter}
                                         onChange={this.handleFilterChange} />
 
