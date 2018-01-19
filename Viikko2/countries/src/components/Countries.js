@@ -11,8 +11,10 @@ const Countries = (props) => {
 
   let showAll = false;
   props.countries.length === 1 ? showAll = true :  showAll = false
+
   const countries = () => props.countries.map(p => <Country key={p.name}
-                                               country={p} showAll={showAll} />)
+                                               country={p} showAll={showAll}
+                                               onClick={props.onClick} />)
   return (
     <div>
       {countries()}
@@ -29,7 +31,11 @@ const Country = (props) => {
       <p>population: {props.country.population}</p>
       <img src={props.country.flag} alt='flag' height="200" width="400"/>
       </div> :
-      <p>{props.country.name}</p>
+      <div onClick={() => props.onClick(props.country)}>
+        {props.country.name}
+      </div>
     )
-  }
+}
+
+
 export default Countries

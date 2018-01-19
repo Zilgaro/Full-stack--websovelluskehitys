@@ -32,12 +32,19 @@ class App extends React.Component {
     )
   }
 
-  render() {
+  handleCountryClick = (country) => {
+    console.log(country)
+    this.setState({filter: country.name})
+  }
 
+  render() {
     return (
-      <div>find countries: <input value={this.state.filter}
-                               onChange={this.handleFilterChange} />
-                             <Countries countries={this.filterCountries()}/>
+      <div>
+        find countries: <input value={this.state.filter}
+        onChange={this.handleFilterChange} />
+       {/*Tää menee nii usean mutkan kautta että heikompaa hirvittää!*/}
+        <Countries countries={this.filterCountries()}
+                   onClick={this.handleCountryClick.bind(this)}/>
       </div>
     )
   }
