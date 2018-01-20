@@ -18,7 +18,6 @@ class App extends React.Component {
   componentWillMount() {
   personService.getAll()
     .then(response => {
-      console.log('promise fulfilled')
       this.setState({ persons: response.data })
     })
 }
@@ -51,16 +50,15 @@ class App extends React.Component {
       if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
         const person = this.state.persons.find(p => p.name === this.state.newName)
         person.number = this.state.newNumber
-        personService.update(person.id, person)
+
+        personService
+        .update(person.id, person)
           .then(person => {
             const persons = this.state.persons.filter(p => p.id !== person.id)
             this.setState({
               notification: `${person.name} numero vaihdettu`,
               notes: persons.concat(person)
             })
-            setTimeout(() => {
-              this.setState({notification: null})
-            }, 5000)
           })
           .catch(error => {
             this.setState({
@@ -100,15 +98,28 @@ class App extends React.Component {
         const index = this.state.persons.indexOf(person)
         const array = this.state.persons
         //tää oli vaikenta mulle jostai syystä
-        personService.remove(person.id)
-        array.splice(index, 1)
-        this.setState({
-          notification: `${name} poistettu`,
-          persons: array})
-      }
+        personService
+        .remove(person.id)
+          .then(person => {
+            array.splice(index, 1)
+            this.setState({
+              notification: `${name} poistettu`,
+              persons: array
+            })
+          }
+          )
+          .catch(error => {
+            this.setState({
+              notification: `henkilö '${person.name}' on jo
+              poistettu palvelimelta, tai hänen tietojaan päivitetään`,
+              persons: this.state.persons.filter(p => p.id !== person.id)})
+            })
+            setTimeout(() => {
+              this.setState({notification: null})
+            }, 5000)
     }
   }
-
+}
 
   render() {
     const persons = () => this.filterPersons().map(p =>
