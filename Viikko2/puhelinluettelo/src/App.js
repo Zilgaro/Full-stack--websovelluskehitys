@@ -47,32 +47,35 @@ class App extends React.Component {
         notification: `Henkilö ${this.state.newName} lisätty`
       })
     } else {
-      if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        const person = this.state.persons.find(p => p.name === this.state.newName)
-        person.number = this.state.newNumber
-
-        personService
-        .update(person.id, person)
-          .then(person => {
-            const persons = this.state.persons.filter(p => p.id !== person.id)
-            this.setState({
-              notification: `${person.name} numero vaihdettu`,
-              notes: persons.concat(person)
-            })
-          })
-          .catch(error => {
-            this.setState({
-              notification: `henkilö '${person.name}' on jo
-              poistettu palvelimelta, tai hänen tietojaan päivitetään`,
-              persons: this.state.persons.filter(p => p.id !== person.id)})
-            })
-            setTimeout(() => {
-              this.setState({notification: null})
-            }, 5000)
-          }
-      }
+      this.updatePerson()
     }
+  }
 
+  updatePerson = () => {
+    if (window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+      const person = this.state.persons.find(p => p.name === this.state.newName)
+      person.number = this.state.newNumber
+
+      personService
+      .update(person.id, person)
+        .then(person => {
+          const persons = this.state.persons.filter(p => p.id !== person.id)
+          this.setState({
+            notification: `${person.name} numero vaihdettu`,
+            notes: persons.concat(person)
+          })
+        })
+        .catch(error => {
+          this.setState({
+            notification: `henkilö '${person.name}' on jo
+            poistettu palvelimelta, tai hänen tietojaan päivitetään`,
+            persons: this.state.persons.filter(p => p.id !== person.id)})
+          })
+          setTimeout(() => {
+            this.setState({notification: null})
+          }, 5000)
+      }
+  }
 
   handleNameChange = (event) => {
     this.setState({newName: event.target.value})
@@ -117,9 +120,9 @@ class App extends React.Component {
             setTimeout(() => {
               this.setState({notification: null})
             }, 5000)
+      }
     }
   }
-}
 
   render() {
     const persons = () => this.filterPersons().map(p =>
