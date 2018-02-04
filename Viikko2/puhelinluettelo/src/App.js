@@ -18,7 +18,7 @@ class App extends React.Component {
   componentWillMount() {
   personService.getAll()
     .then(response => {
-      this.setState({ persons: response.data })
+      this.setState({ persons: response })
     })
 }
 
