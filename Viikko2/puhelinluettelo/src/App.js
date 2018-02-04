@@ -38,13 +38,19 @@ class App extends React.Component {
       personService.create(personObj)
         .then(response => {
           console.log(response)
+          const persons = this.state.persons.concat(personObj)
+          this.setState({
+            persons,
+            newName: '',
+            newNumber: '',
+            notification: `Henkilö ${this.state.newName} lisätty`
         })
-      const persons = this.state.persons.concat(personObj)
-      this.setState({
-        persons,
-        newName: '',
-        newNumber: '',
-        notification: `Henkilö ${this.state.newName} lisätty`
+      })
+      .catch(error => {
+        this.setState({
+          notification: `henkilö '${personObj.name}' on jo
+          lisätty palvelimelle toisaalta!`
+        })
       })
     } else {
       this.updatePerson()
