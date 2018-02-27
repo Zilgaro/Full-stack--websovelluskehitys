@@ -9,11 +9,17 @@ class Notification extends React.Component {
     }
     
     const notification = this.props.store.getState().notifications
-    return (
-      <div style={style}>
-        {notification}
-      </div>
-    )
+    
+    if (notification!==null) {
+      return (
+        <div style={style}>
+          {notification}
+        </div>
+      )
+    } else {
+      return (<div></div>)
+    }
+    
   }
 }
 
