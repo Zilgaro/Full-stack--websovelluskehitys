@@ -1,6 +1,6 @@
-export const anecdoteCreation = content => ({
+export const anecdoteCreation = data => ({
   type: 'CREATE',
-  content,
+  data,
 });
 
 export const anecdoteVote = id => ({
@@ -15,8 +15,6 @@ export const anecdoteInitialization = (data) => {
   }
 }
 
-const getId = () => (100000 * Math.random()).toFixed(0);
-
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE':
@@ -24,7 +22,7 @@ const anecdoteReducer = (state = [], action) => {
       const voted = state.find(a => a.id === action.id)
       return [...old, { ...voted, votes: voted.votes + 1 }]
     case 'CREATE':
-      return [...state, { content: action.content, id: getId(), votes: 0 }]
+      return [...state, action.data]
     case 'INIT':
       return action.data
     default:
