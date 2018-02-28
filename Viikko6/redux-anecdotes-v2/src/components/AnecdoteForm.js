@@ -1,6 +1,4 @@
 import React from 'react';
-import { anecdoteCreation } from './../reducers/anecdoteReducer'
-import { notificationCreator, resetNotification } from './../reducers/notificationReducer'
 
 class AnecdoteForm extends React.Component {
    render() {

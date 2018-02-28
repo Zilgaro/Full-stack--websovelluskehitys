@@ -4,7 +4,9 @@ import React from 'react';
 class AnecdoteList extends React.Component {
   render() {
     const anecdotes = this.props.store.getState().anecdotes
-    
+      .filter(anecdote => anecdote.content.toLowerCase().match(
+        (this.props.store.getState().filter.toLowerCase())))
+
     return (
       <div>
         <h2>Anecdotes</h2>
