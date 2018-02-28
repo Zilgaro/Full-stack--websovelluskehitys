@@ -1,4 +1,5 @@
 import React from 'react';
+import ConnectedFilter from './Filter'
 import { connect } from 'react-redux'
 import { anecdoteVote} from './../reducers/anecdoteReducer';
 import { notificationCreator, resetNotification } from './../reducers/notificationReducer'
@@ -11,22 +12,17 @@ class AnecdoteList extends React.Component {
     this.props.notificationCreator(`You voted '${content}''`)
 
     setTimeout(() => {
-      this.props.
-        resetNotification()
+      this.props.resetNotification()
     },5000)
   }
 
 
   render() {
-    const { anecdotes, filter } = this.props
-    const anecdotesToShow = anecdotes
-      .filter(a => a.content.toLowerCase().match(
-        (filter.toLowerCase())))
-
     return (
       <div>
         <h2>Anecdotes</h2>
-        {anecdotesToShow.sort((a, b) => b.votes - a.votes).map(anecdote =>
+        <ConnectedFilter/>
+        {this.props.visibleAnecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
           <div key={anecdote.id}>
             <div>
               {anecdote.content}
@@ -46,6 +42,12 @@ class AnecdoteList extends React.Component {
   };
 };
 
+const anecdotesToShow = (anecdotes, filter) => {
+  return anecdotes.filter(a => a.content.toLowerCase().match(
+    (filter.toLowerCase())))
+}
+
+
 const mapDispatchToProps = {
   anecdoteVote,
   notificationCreator,
@@ -54,8 +56,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    visibleAnecdotes: anecdotesToShow(state.anecdotes, state.filter)
   }
 }
 
