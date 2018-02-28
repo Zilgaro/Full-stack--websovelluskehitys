@@ -1,23 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { anecdoteVote} from './../reducers/anecdoteReducer';
+import { notificationCreator, resetNotification } from './../reducers/notificationReducer'
 
 
 class AnecdoteList extends React.Component {
+
+  handleVoteClick = (id, content) => {
+    this.props.anecdoteVote(id)
+    this.props.notificationCreator(`You voted '${content}''`)
+
+    setTimeout(() => {
+      this.props.
+        resetNotification()
+    },5000)
+  }
+
+
   render() {
-    const anecdotes = this.props.store.getState().anecdotes
-      .filter(anecdote => anecdote.content.toLowerCase().match(
-        (this.props.store.getState().filter.toLowerCase())))
+    const { anecdotes, filter } = this.props
+    const anecdotesToShow = anecdotes
+      .filter(a => a.content.toLowerCase().match(
+        (filter.toLowerCase())))
 
     return (
       <div>
         <h2>Anecdotes</h2>
-        {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
+        {anecdotesToShow.sort((a, b) => b.votes - a.votes).map(anecdote =>
           <div key={anecdote.id}>
             <div>
               {anecdote.content}
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() => this.props.handleClick(anecdote.id, anecdote.content)
+              <button onClick={() => this.handleVoteClick(
+                anecdote.id, anecdote.content)
               }>
                 vote
               </button>
@@ -29,4 +46,22 @@ class AnecdoteList extends React.Component {
   };
 };
 
-export default AnecdoteList;
+const mapDispatchToProps = {
+  anecdoteVote,
+  notificationCreator,
+  resetNotification
+}
+
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdoteList;

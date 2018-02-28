@@ -1,4 +1,4 @@
-const initialNotification = null
+const initialNotification = ''
 
 export const notificationCreator = notification => ({
     type: 'CREATE_NOTIFICATION',
