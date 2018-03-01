@@ -1,11 +1,23 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+
+
+const menuStyle = {
+  background: 'lightblue',
+  padding: '10px'
+}
+
+const linkActiveStyle = {
+  fontWeight: 'bold',
+  color: 'orange',
+  padding: '5px'
+}
 
 const Menu = () => (
-    <div>    
-      <Link to='/'>anecdotes</Link>&nbsp;
-      <Link to='/create'>create new</Link>&nbsp;
-      <Link to='/about'>about</Link>&nbsp;
+    <div style={menuStyle}>    
+      <NavLink exact to='/' activeStyle={linkActiveStyle}>anecdotes</NavLink>&nbsp;
+      <NavLink exact to='/create' activeStyle={linkActiveStyle}>create new</NavLink>&nbsp;
+      <NavLink exact to='/about' activeStyle={linkActiveStyle}>about</NavLink>&nbsp;
     </div>
 )
 
@@ -33,7 +45,6 @@ const notificationStyle = {
   color: 'green',
   borderRadius: '25px',
   padding: '10px'
-  
 }
 
 const Notification = ({ notification }) => (
