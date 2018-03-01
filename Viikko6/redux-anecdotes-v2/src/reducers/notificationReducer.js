@@ -1,9 +1,18 @@
 const initialNotification = ''
 
-export const notificationCreator = notification => ({
-    type: 'CREATE_NOTIFICATION',
-    notification
-})
+export const notificationCreator = (notification, timeout) => {
+  return async (dispatch) => {
+    dispatch ({
+      type: 'CREATE_NOTIFICATION',
+      notification
+    })
+    setTimeout(() => {
+      dispatch ({
+        type: 'RESET_NOTIFICATION'
+      })
+    }, timeout * 1000)
+  }
+}
 
 export const resetNotification = () => {
   return {
