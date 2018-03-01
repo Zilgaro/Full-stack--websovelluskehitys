@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+import { ListGroup, ListGroupItem, Grid, Row, Col, Thumbnail} from 'react-bootstrap';
 
 
 const menuStyle = {
@@ -24,11 +25,11 @@ const Menu = () => (
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >
+    <ListGroup>
+      {anecdotes.map(anecdote => <ListGroupItem key={anecdote.id} >
         <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>)}
-    </ul>  
+        </ListGroupItem>)}
+    </ListGroup>  
   </div>
 )
 
@@ -52,17 +53,24 @@ const Notification = ({ notification }) => (
 )
 
 const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+  <Grid>
+    <Row className="show-grid">
+      <Col xs={5} md={5}>
+      <h2>About anecdote app</h2>
+      <p>According to Wikipedia:</p>
     
-    <em>An anecdote is a brief, revealing account of an individual person or an incident. 
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
-      An anecdote is "a story with a point."</em>
+      <em>An anecdote is a brief, revealing account of an individual person or an incident. 
+        Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
+        such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
+        An anecdote is "a story with a point."</em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+        <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+      </Col>
+      <Col xs={3} md={3}>
+        <Thumbnail src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg/1024px-Brendan_Eich_Mozilla_Foundation_official_photo.jpg' />
+      </Col>
+    </Row>
+  </Grid>
 )
 
 const Footer = () => (
