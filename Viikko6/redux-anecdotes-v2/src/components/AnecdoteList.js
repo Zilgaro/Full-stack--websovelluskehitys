@@ -1,6 +1,5 @@
 import React from 'react';
 import ConnectedFilter from './Filter'
-import anecdoteService from './../services/anecdotes'
 import { connect } from 'react-redux'
 import { anecdoteVote} from './../reducers/anecdoteReducer';
 import { notificationCreator, resetNotification } from './../reducers/notificationReducer'
@@ -9,15 +8,12 @@ import { notificationCreator, resetNotification } from './../reducers/notificati
 class AnecdoteList extends React.Component {
 
   handleVoteClick = async (anecdote) => {
-    await anecdoteService.updateVotes(anecdote)
-    this.props.anecdoteVote(anecdote.id)
+    this.props.anecdoteVote(anecdote)
     this.props.notificationCreator(`You voted '${anecdote.content}''`)
-
     setTimeout(() => {
       this.props.resetNotification()
     },5000)
   }
-
 
   render() {
     return (
