@@ -1,12 +1,7 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
-import { ListGroup, ListGroupItem, Grid, Row, Col, Thumbnail} from 'react-bootstrap';
-
-
-const menuStyle = {
-  background: 'lightblue',
-  padding: '10px'
-}
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { ListGroup, ListGroupItem, Grid, Row, Col, Thumbnail, Navbar, Nav, NavItem} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'
 
 const linkActiveStyle = {
   fontWeight: 'bold',
@@ -15,11 +10,30 @@ const linkActiveStyle = {
 }
 
 const Menu = () => (
-    <div style={menuStyle}>    
-      <NavLink exact to='/' activeStyle={linkActiveStyle}>anecdotes</NavLink>&nbsp;
-      <NavLink exact to='/create' activeStyle={linkActiveStyle}>create new</NavLink>&nbsp;
-      <NavLink exact to='/about' activeStyle={linkActiveStyle}>about</NavLink>&nbsp;
-    </div>
+    <Navbar>    
+      <Navbar.Header>
+        <Navbar.Brand>
+          Anekdoottihommeli
+        </Navbar.Brand>
+      </Navbar.Header>
+      <Nav>
+        <LinkContainer exact to='/' activeStyle={linkActiveStyle} >
+          <NavItem >
+            Anecdotes
+          </NavItem>
+        </LinkContainer>
+        <LinkContainer exact to='/create' activeStyle={linkActiveStyle}>  
+          <NavItem>
+          Create New
+          </NavItem >
+        </LinkContainer>
+        <LinkContainer exact to='/about' activeStyle={linkActiveStyle}>
+          <NavItem>
+            About
+          </NavItem >
+        </LinkContainer>
+      </Nav>
+    </Navbar>
 )
 
 const AnecdoteList = ({ anecdotes }) => (
@@ -55,7 +69,7 @@ const Notification = ({ notification }) => (
 const About = () => (
   <Grid>
     <Row className="show-grid">
-      <Col xs={5} md={5}>
+      <Col xs={12} md={8}>
       <h2>About anecdote app</h2>
       <p>According to Wikipedia:</p>
     
