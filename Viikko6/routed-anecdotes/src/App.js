@@ -28,8 +28,16 @@ const Anecdote = ({ anecdote }) => (
   </div>
 )
 
+const notificationStyle = {
+  border: '2px solid #73AD21',
+  color: 'green',
+  borderRadius: '25px',
+  padding: '10px'
+  
+}
+
 const Notification = ({ notification }) => (
-  <div>{notification}</div>
+    <div style={notification === '' ? null : notificationStyle}>{notification}</div>
 )
 
 const About = () => (
